@@ -1,7 +1,6 @@
 <template>
   <div>
     <div class= "whale-clock">
-      <div class= "clock-center"></div>
     </div>
   </div>
 </template>
@@ -23,7 +22,8 @@ export default {
     justify-content: center;
   }
 
-  .whale-clock .clock-center {
+  .whale-clock:after {
+    content: "";
     width: 4px;
     height: 4px;
     background-color: #000000;
