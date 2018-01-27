@@ -12,25 +12,7 @@ export default {
 
 <style>
   /* 폰트 설정 */
-  @font-face {
-    font-family: NanumSquareRoundB;
-    src: url('./assets/NanumSquareRoundB.ttf');
-  }
-
-  @font-face {
-    font-family: NanumSquareRoundEB;
-    src: url('./assets/NanumSquareRoundEB.ttf');
-  }
-
-  @font-face {
-    font-family: NanumSquareRoundL;
-    src: url('./assets/NanumSquareRoundL.ttf');
-  }
-
-  @font-face {
-    font-family: NanumSquareRoundR;
-    src: url('./assets/NanumSquareRoundR.ttf');
-  }
+  @import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 
   html, body {
     width: 100%;
@@ -61,7 +43,9 @@ export default {
   * {
     margin: 0;
     padding: 0;
+    border: 0;
     outline: none;
     box-sizing: border-box;
+    font-family: 'nanumsquare', sans-serif;
   }
 </style>

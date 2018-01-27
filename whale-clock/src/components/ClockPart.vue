@@ -1,22 +1,114 @@
 <template>
   <div>
+    <!-- 시계 부분 -->
     <div class= "whale-clock">
-      <div class= "hours-container">
+      <!-- 현재 일정 -->
+      <span class= "today-date">
+        {{ todayDate }}
+      </span>
+      <div class= "hours-container" ref= "hours-container">
         <div class= "hours"></div>
       </div>
-      <div class= "minutes-container">
+      <div class= "minutes-container" ref= "minutes-container">
         <div class= "minutes"></div>
       </div>
-      <div class= "seconds-container">
+      <div class= "seconds-container" ref= "seconds-container">
         <div class= "seconds"></div>
       </div>
+      <!-- 검색 창 -->
+      <div class= "search-form">
+        <input type= "text"
+               placeholder= "검색어를 입력해주세요."
+               v-model= "message"
+               @keyup.enter= "search"
+        >
+        <img :src= "searchImg.src"
+             :alt= "searchImg.alt"
+             class= "search-img"
+             @click.prevent= "search"
+        >
+      </div>
+      <!-- 낮과 밤 구분 이미지 -->
+      <img :src= "morning ? sunNightImg.morningSrc : sunNightImg.nightSrc"
+           :alt= "sunNightImg.alt"
+           class= "day-change"
+      >
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'clock-part'
+  name: 'clock-part',
+  data () {
+    return {
+      years: new Date().getFullYear(),
+      months: new Date().getMonth() + 1,
+      days: new Date().getDate(),
+      hours: new Date().getHours(),
+      minutes: new Date().getMinutes(),
+      seconds: new Date().getSeconds(),
+
+      sunNightImg: {
+        morningSrc: require('../assets/newtab-ic-sun.png'),
+        nightSrc: require('../assets/newtab-ic-night.png'),
+        alt: '낮과 밤 이미지'
+      },
+
+      searchImg: {
+        src: require('../assets/btn-search.png'),
+        alt: '검색 이미지'
+      },
+      message: ''
+    }
+  },
+  computed: {
+    hourAngle () {
+      return (this.hours + 30) + (this.minutes / 2)
+    },
+    minuteAngle () {
+      return (this.minutes * 6)
+    },
+    secondAngle () {
+      return (this.seconds * 6)
+    },
+    morning () {
+      return (this.hours < 18) ? 1 : 0
+    },
+    todayDate () {
+      return [this.years,
+        (this.months > 9 ? '' : '0') + this.months,
+        (this.days > 9 ? '' : '0') + this.days
+      ].join('.') + '.'
+    }
+  },
+  methods: {
+    clockOperating () {
+      this.initClock()
+      this.setupMinute()
+      this.moveMinute()
+      this.moveSecond()
+    },
+    initClock () {
+    },
+    setupMinute () {
+    },
+    moveMinute () {
+    },
+    moveSecond () {
+    },
+    search () {
+      let typeMessage = this.message
+      const searchUrl = `https://www.google.co.kr/search\
+?q=${typeMessage}&oq=${typeMessage}&aqs=chrome..69i57j69i\
+60l5.1198j0j7&sourceid=chrome&ie=UTF-8`
+
+      window.location.href = searchUrl
+    }
+  },
+  mounted () {
+    this.clockOperating()
+  }
 }
 </script>
 
@@ -43,6 +135,61 @@ export default {
     z-index: 9999;
   }
 
+  .today-date {
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -1px;
+    color: #FFFFFF;
+    margin-right: 800px;
+  }
+
+  .day-change {
+    width: 24px;
+    position: absolute;
+    bottom: 65px;
+  }
+
+  .search-form {
+    width: 340px;
+    height: 37px;
+    position: absolute;
+    margin-left: 440px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+  }
+
+  .search-form:before {
+    content: "";
+    width: 19px;
+    height: 19px;
+    display: block;
+    background: url(../assets/google.png) no-repeat center;
+    background-size: cover;
+    margin-left: 10px;
+  }
+
+  input[type=text] {
+    margin-left: 10px;
+    width: 80%;
+    height: 24px;
+    font-size: 14.5px;
+    letter-spacing: 0.5px;
+    color: #FFFFFF;
+    border-left: 1px solid rgba(255, 255, 255, 0.7);
+    padding-left: 10px;
+    background-color: transparent;
+  }
+
+  input[type=text]::placeholder {
+    color: #ffffff;
+  }
+
+  .search-img {
+    cursor: pointer;
+    margin-left: 4px;
+  }
+
   .hours-container, .minutes-container, .seconds-container {
     position: absolute;
     top: 0;
@@ -51,7 +198,6 @@ export default {
     bottom: 0;
     display: flex;
     justify-content: center;
-    border: 1px solid white;
   }
 
   .hours-container {
