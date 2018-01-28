@@ -10,7 +10,7 @@
       <div v-for= "tc in timeContainer"
            :key= "tc.id"
            :class= "tc.parentClass"
-           ref= "container"
+           ref= "time-container"
       >
         <div :class= "tc.childClass"></div>
       </div>
@@ -80,14 +80,13 @@ export default {
     }
   },
   computed: {
-    hourAngle () {
-      return (this.hours + 30) + (this.minutes / 2)
-    },
-    minuteAngle () {
-      return (this.minutes * 6)
-    },
-    secondAngle () {
-      return (this.seconds * 6)
+    getAngle () {
+      const angles = [
+        ((this.hours * 30) + (this.minutes / 2)),
+        (this.minutes * 6),
+        (this.seconds * 6)
+      ]
+      return angles
     },
     morning () {
       return (this.hours < 18) ? 1 : 0
@@ -107,6 +106,11 @@ export default {
       this.moveSecond()
     },
     initClock () {
+      let tc = this.$refs['time-container']
+      for (let i in tc) {
+        tc[i].style.transform = `rotateZ(${this.getAngle[i]}deg)`
+        tc[i].style.webkitTransform = `rotateZ(${this.getAngle[i]}deg)`
+      }
     },
     setupMinute () {
     },
