@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- 시계 부분 -->
     <div class= "whale-clock">
       <!-- 현재 일정 -->
       <span class= "today-date">
@@ -136,9 +135,9 @@ export default {
         let timeContainer = self.$refs['time-container']
 
         for (let i = 0; i < timeContainer.length; i++) {
-          let angle = self.getAngle()
-          timeContainer[i].style.transform = `rotateZ(${angle[i]}deg)`
-          timeContainer[i].style.webkitTransform = `rotateZ(${angle[i]}deg)`
+          let angles = self.getAngle()
+          timeContainer[i].style.transform = `rotateZ(${angles[i]}deg)`
+          timeContainer[i].style.webkitTransform = `rotateZ(${angles[i]}deg)`
         }
 
         self.now.setMilliseconds(self.now.getMilliseconds() + term)
@@ -216,12 +215,12 @@ export default {
     margin-left: 10px;
     width: 80%;
     height: 24px;
-    font-size: 14.5px;
-    letter-spacing: 0.5px;
+    font-size: 14px;
     color: #FFFFFF;
     border-left: 1px solid rgba(255, 255, 255, 0.7);
     padding-left: 10px;
     background-color: transparent;
+    font-family: sans-serif;
   }
 
   input[type=text]::placeholder {

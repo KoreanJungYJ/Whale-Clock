@@ -6,7 +6,26 @@
 
 <script>
 export default {
-  name: 'app'
+  name: 'app',
+  methods: {
+    setBackground () {
+      const backgrounds = [
+        'https://whale-store.pstatic.net/20170830_295/1504079868349v7BKS_JPEG/whale_img01.jpg',
+        'https://whale-store.pstatic.net/20170830_218/15040799129727lLik_JPEG/whale_img02.jpg',
+        'https://whale-store.pstatic.net/20170830_84/15040799503999Iq29_JPEG/whale_img03.jpg',
+        'https://whale-store.pstatic.net/20171128_197/1511835718742W934M_JPEG/winter_img01.jpg',
+        'https://whale-store.pstatic.net/20180102_176/15148860313773s1K2_JPEG/newyear_img03.jpg',
+        'https://whale-store.pstatic.net/20170830_118/1504080433611btaLr_JPEG/whalespace_img_large01.jpg'
+      ]
+      let randNum = Math.floor(Math.random() * backgrounds.length)
+
+      // Vue.js는 #app 밖에 나가면 힘을 못쓰므로..ㅠ
+      document.body.style.backgroundImage = `url(${backgrounds[randNum]})`
+    }
+  },
+  mounted () {
+    this.setBackground()
+  }
 }
 </script>
 
@@ -19,7 +38,6 @@ export default {
     height: 100%;
     margin: 0;
     padding: 0;
-    background-image: url('https://whale-store.pstatic.net/20170830_295/1504079868349v7BKS_JPEG/whale_img01.jpg');
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
