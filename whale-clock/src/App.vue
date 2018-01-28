@@ -15,7 +15,8 @@ export default {
         'https://whale-store.pstatic.net/20170830_84/15040799503999Iq29_JPEG/whale_img03.jpg',
         'https://whale-store.pstatic.net/20171128_197/1511835718742W934M_JPEG/winter_img01.jpg',
         'https://whale-store.pstatic.net/20180102_176/15148860313773s1K2_JPEG/newyear_img03.jpg',
-        'https://whale-store.pstatic.net/20170830_118/1504080433611btaLr_JPEG/whalespace_img_large01.jpg'
+        'https://whale-store.pstatic.net/20170830_118/1504080433611btaLr_JPEG/whalespace_img_large01.jpg',
+        'https://whale-store.pstatic.net/20171128_95/1511835995272nrk4T_JPEG/winter_img05.jpg'
       ]
       let randNum = Math.floor(Math.random() * backgrounds.length)
 
