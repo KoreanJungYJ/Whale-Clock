@@ -6,14 +6,13 @@
       <span class= "today-date">
         {{ todayDate }}
       </span>
-      <div class= "hours-container" ref= "hours-container">
-        <div class= "hours"></div>
-      </div>
-      <div class= "minutes-container" ref= "minutes-container">
-        <div class= "minutes"></div>
-      </div>
-      <div class= "seconds-container" ref= "seconds-container">
-        <div class= "seconds"></div>
+      <!-- 시계 -->
+      <div v-for= "tc in timeContainer"
+           :key= "tc.id"
+           :class= "tc.parentClass"
+           ref= "container"
+      >
+        <div :class= "tc.childClass"></div>
       </div>
       <!-- 검색 창 -->
       <div class= "search-form">
@@ -48,6 +47,24 @@ export default {
       hours: new Date().getHours(),
       minutes: new Date().getMinutes(),
       seconds: new Date().getSeconds(),
+
+      timeContainer: [
+        {
+          parentClass: 'hours-container',
+          childClass: 'hours',
+          id: 1
+        },
+        {
+          parentClass: 'minutes-container',
+          childClass: 'minutes',
+          id: 2
+        },
+        {
+          parentClass: 'seconds-container',
+          childClass: 'seconds',
+          id: 3
+        }
+      ],
 
       sunNightImg: {
         morningSrc: require('../assets/newtab-ic-sun.png'),
@@ -208,7 +225,7 @@ export default {
     animation: rotate 3600s infinite linear;
   }
 
-  /* 째깍거리는 느낌을 주고 싶다면 linear를 steps(60)으로 주자! */
+  /* 째깍거리는 느낌을 주고 싶다면 linear대신 steps(60)으로 주자! */
   /* 째깍거림과 동시에 뭔가 튀는 느낌을 주고 싶다면 cubic-bezier를 이용하자 */
   /* 예시: transition: transform 0.2s cubic-bezier(.4, 2.08, .55, .44); */
 
