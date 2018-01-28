@@ -41,13 +41,7 @@ export default {
   name: 'clock-part',
   data () {
     return {
-      years: new Date().getFullYear(),
-      months: new Date().getMonth() + 1,
-      days: new Date().getDate(),
-      hours: new Date().getHours(),
-      minutes: new Date().getMinutes(),
-      seconds: new Date().getSeconds(),
-      millis: new Date().getMilliseconds(),
+      now: new Date(),
 
       timeContainer: [
         {
@@ -80,9 +74,10 @@ export default {
       message: ''
     }
   },
+
   computed: {
     correctHour () {
-      let hour = this.hours
+      let hour = this.now.getHours()
 
       if (hour >= 12) {
         hour = hour - 12
@@ -93,29 +88,37 @@ export default {
 
       return hour
     },
+
+    morning () {
+      return (this.now.getHours() < 18) ? 1 : 0
+    },
+
+    todayDate () {
+      return [this.now.getFullYear(),
+        ((this.now.getMonth() + 1) > 9 ? '' : '0') + (this.now.getMonth() + 1),
+        (this.now.getDate() > 9 ? '' : '0') + this.now.getDate()
+      ].join('.') + '.'
+    },
+
+    getMinutes () {
+      return this.now.getMinutes()
+    }
+  },
+
+  methods: {
     getAngle () {
       const angles = [
         // 현재 시
-        ((this.correctHour * 30) + (this.minutes / 2)),
+        ((this.correctHour * 30) + (this.now.getMinutes() / 2)),
         // 현재 분
-        (this.minutes * 6),
+        (this.now.getMinutes() * 6),
         // 현재 초
-        ((this.seconds * 6) + (this.millis / 1000))
+        ((this.now.getSeconds() * 6) + (this.now.getMilliseconds() * 0.006))
       ]
 
       return angles
     },
-    morning () {
-      return (this.hours < 18) ? 1 : 0
-    },
-    todayDate () {
-      return [this.years,
-        (this.months > 9 ? '' : '0') + this.months,
-        (this.days > 9 ? '' : '0') + this.days
-      ].join('.') + '.'
-    }
-  },
-  methods: {
+
     search () {
       let typeMessage = this.message
       const searchUrl = `https://www.google.co.kr/search\
@@ -124,20 +127,30 @@ export default {
 
       window.location.href = searchUrl
     },
-    getTime () {
+
+    setClock () {
       let self = this
+      let term = 50
 
       setInterval(function () {
         let timeContainer = self.$refs['time-container']
+
         for (let i = 0; i < timeContainer.length; i++) {
-          timeContainer[i].style.transform = `rotateZ(${self.getAngle[i]}deg)`
-          timeContainer[i].style.webkitTransform = `rotateZ(${self.getAngle[i]}deg)`
+          let angle = self.getAngle()
+          timeContainer[i].style.transform = `rotateZ(${angle[i]}deg)`
+          timeContainer[i].style.webkitTransform = `rotateZ(${angle[i]}deg)`
         }
-      }, 50)
+
+        self.now.setMilliseconds(self.now.getMilliseconds() + term)
+        if (self.getMinutes !== self.now.getMinutes()) {
+          self.now = new Date()
+        }
+      }, term)
     }
   },
+
   mounted () {
-    this.getTime()
+    this.setClock()
   }
 }
 </script>
