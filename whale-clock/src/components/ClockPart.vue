@@ -90,7 +90,7 @@ export default {
     },
 
     morning () {
-      return (this.now.getHours() < 18) ? 1 : 0
+      return (this.now.getHours() > 5 && this.now.getHours() < 18) ? 1 : 0
     },
 
     todayDate () {
@@ -109,7 +109,7 @@ export default {
     getAngle () {
       const angles = [
         // 현재 시
-        ((this.correctHour * 30) + (this.now.getMinutes() / 2)),
+        ((this.correctHour * 30) + (this.now.getMinutes() * 0.5)),
         // 현재 분
         (this.now.getMinutes() * 6),
         // 현재 초
