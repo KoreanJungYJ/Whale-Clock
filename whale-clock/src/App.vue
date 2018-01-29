@@ -11,12 +11,13 @@ export default {
     setBackground () {
       const backgrounds = [
         'https://whale-store.pstatic.net/20170830_295/1504079868349v7BKS_JPEG/whale_img01.jpg',
-        'https://whale-store.pstatic.net/20170830_218/15040799129727lLik_JPEG/whale_img02.jpg',
+        'https://whale-store.pstatic.net/20170830_168/15040847504176RXWg_JPEG/night_img02.jpg',
         'https://whale-store.pstatic.net/20170830_84/15040799503999Iq29_JPEG/whale_img03.jpg',
         'https://whale-store.pstatic.net/20171128_197/1511835718742W934M_JPEG/winter_img01.jpg',
         'https://whale-store.pstatic.net/20180102_176/15148860313773s1K2_JPEG/newyear_img03.jpg',
         'https://whale-store.pstatic.net/20170830_118/1504080433611btaLr_JPEG/whalespace_img_large01.jpg',
-        'https://whale-store.pstatic.net/20171128_95/1511835995272nrk4T_JPEG/winter_img05.jpg'
+        'https://whale-store.pstatic.net/20171128_95/1511835995272nrk4T_JPEG/winter_img05.jpg',
+        'https://whale-store.pstatic.net/20170830_299/1504084784867f0T5t_JPEG/night_img04.jpg'
       ]
       let randNum = Math.floor(Math.random() * backgrounds.length)
 
