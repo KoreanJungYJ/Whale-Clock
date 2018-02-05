@@ -131,6 +131,7 @@ export default {
       let self = this
       let term = 50
 
+      // 함수 50m마다 실행
       setInterval(function () {
         let timeContainer = self.$refs['time-container']
 

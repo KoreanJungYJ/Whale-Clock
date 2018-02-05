@@ -7,18 +7,46 @@
 <script>
 export default {
   name: 'app',
+  data () {
+    return {
+      backgrounds: [
+        {
+          src: require('./assets/back1.jpg'),
+          alt: '1번 배경화면'
+        },
+        {
+          src: require('./assets/back2.jpg'),
+          alt: '2번 배경화면'
+        },
+        {
+          src: require('./assets/back3.jpg'),
+          alt: '3번 배경화면'
+        },
+        {
+          src: require('./assets/back4.jpg'),
+          alt: '4번 배경화면'
+        },
+        {
+          src: require('./assets/back5.jpg'),
+          alt: '5번 배경화면'
+        },
+        {
+          src: require('./assets/back6.jpg'),
+          alt: '6번 배경화면'
+        },
+        {
+          src: require('./assets/back7.jpg'),
+          alt: '7번 배경화면'
+        }
+      ]
+    }
+  },
   methods: {
     setBackground () {
-      const backgrounds = [
-        'https://whale-store.pstatic.net/20170830_295/1504079868349v7BKS_JPEG/whale_img01.jpg',
-        'https://whale-store.pstatic.net/20170830_168/15040847504176RXWg_JPEG/night_img02.jpg',
-        'https://whale-store.pstatic.net/20170830_84/15040799503999Iq29_JPEG/whale_img03.jpg',
-        'https://whale-store.pstatic.net/20171128_197/1511835718742W934M_JPEG/winter_img01.jpg',
-        'https://whale-store.pstatic.net/20180102_176/15148860313773s1K2_JPEG/newyear_img03.jpg',
-        'https://whale-store.pstatic.net/20170830_118/1504080433611btaLr_JPEG/whalespace_img_large01.jpg',
-        'https://whale-store.pstatic.net/20171128_95/1511835995272nrk4T_JPEG/winter_img05.jpg',
-        'https://whale-store.pstatic.net/20170830_299/1504084784867f0T5t_JPEG/night_img04.jpg'
-      ]
+      const backgrounds = []
+      for (let i in this.backgrounds) {
+        backgrounds.push(this.backgrounds[i].src)
+      }
       let randNum = Math.floor(Math.random() * backgrounds.length)
 
       // Vue.js는 #app 밖에 나가면 힘을 못쓰므로..ㅠ
