@@ -195,7 +195,7 @@ export default {
         self.location = pos
       })
     } else {
-      this.location = { lat: 37, lng: 126 }
+      alert('It does not support your Browser!')
     }
   }
 }
