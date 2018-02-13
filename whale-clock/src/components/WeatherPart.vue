@@ -1,5 +1,18 @@
 <template>
   <footer>
+    <transition name= "modal">
+      <div class= "modal-mask"  v-if= "modal">
+        <div class= "modal-wrapper">
+          <div class= "modal-container">
+            <img :src= "closeIcon.src"
+                 :alt= "closeIcon.alt"
+                 class= "close-icon"
+                 @click= "closeModal"
+            >
+          </div>
+        </div>
+      </div>
+    </transition>
     <div class= "maker">
       KoreanJungYJ
       <br>
@@ -16,7 +29,7 @@
     <img :src= "weatherIcon.src"
          :alt= "weatherIcon.alt"
          class= "weather-icon"
-         @click= "getWeather"
+         @click= "getWeather();showModal();"
     >
   </footer>
 </template>
@@ -29,20 +42,34 @@ export default {
   data () {
     return {
       location: {},
+      modal: false,
 
       githubIcon: {
         src: require('../assets/github-logo.png'),
         alt: '깃허브 이동 링크',
         href: 'https://github.com/KoreanJungYJ/Whale-Clock'
       },
+
       weatherIcon: {
         src: require('../assets/weather.png'),
         alt: '날씨 확인 아이콘'
+      },
+
+      closeIcon: {
+        src: require('../assets/close.png'),
+        alt: '닫기 아이콘'
       }
     }
   },
 
   methods: {
+    showModal () {
+      this.modal = true
+    },
+    closeModal () {
+      this.modal = false
+    },
+
     getWeather () {
       const weatherURL = `https://api.darksky.net/forecast/e3b7a8e7022e701fde67fbfadcfb0bd0/${this.location.lat},${this.location.lng}`
 
@@ -80,6 +107,48 @@ export default {
     bottom: 0;
   }
 
+  .modal-mask {
+    position: fixed;
+    z-index: 10000;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .75);
+    transition: opacity .3s ease;
+    display: table;
+  }
+
+  .modal-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .modal-container {
+    width: 650px;
+    height: 480px;
+    margin: 0 auto;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    transition: all .3s ease;
+  }
+
+  .modal-enter {
+    opacity: 0;
+  }
+
+  .modal-leave-active {
+    opacity: 0;
+  }
+
+  .modal-enter .modal-container,
+  .modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
   .maker {
     color: #F2F2F2;
     font-family: sans-serif;
@@ -97,6 +166,13 @@ export default {
     position: absolute;
     bottom: 26px;
     right: 95px;
+    cursor: pointer;
+  }
+
+  .close-icon {
+    width: 15px;
+    float: right;
+    margin: 12px 12px 0 0;
     cursor: pointer;
   }
 </style>
