@@ -9,6 +9,8 @@
                  class= "close-icon"
                  @click= "closeModal"
             >
+            <h1>오늘의 날씨</h1>
+            {{ weathers }}
           </div>
         </div>
       </div>
@@ -41,6 +43,7 @@ export default {
   name: 'weather-part',
   data () {
     return {
+      weathers: {},
       location: {},
       modal: false,
 
@@ -76,16 +79,31 @@ export default {
 
       axios.get(weatherURL).then(function (response) {
         const data = response.data.currently
+        const weatherDatas = {
+          celsiusDeg: self.getCelsius(data.apparentTemperature),
+          timezone: self.getCity(response.data.timezone),
+          summary: data.summary,
+          humidity: self.getHumidity(data.humidity)
+        }
 
-        let celDeg = self.getCelsius(data.apparentTemperature)
-        console.log(celDeg)
+        self.weathers = weatherDatas
       }).catch(function (err) {
         console.log(err)
       })
     },
 
     getCelsius (feh) {
-      return ((feh - 32) / 1.8).toFixed(2)
+      // 화씨 -> 섭씨로 변환
+      return ((feh - 32) / 1.8).toFixed(1) + '℃'
+    },
+
+    getHumidity (hum) {
+      return hum * 100 + '%'
+    },
+
+    getCity (loc) {
+      let splitCity = loc.split('/')
+      return splitCity[1]
     }
   },
 
@@ -113,6 +131,15 @@ export default {
     height: 72px;
     position: absolute;
     bottom: 0;
+  }
+
+  h1 {
+    font-weight: 400;
+    text-align: center;
+    font-size: 30px;
+    color: #404040;
+    letter-spacing: 1px;
+    padding-top: 32.5px;
   }
 
   .modal-mask {
