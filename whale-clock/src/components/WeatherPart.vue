@@ -13,23 +13,44 @@
            class= "git-icon"
       >
     </a>
-    <div class= "test">
-      {{ location }}
-    </div>
+    <img :src= "weatherIcon.src"
+         :alt= "weatherIcon.alt"
+         class= "weather-icon"
+         @click= "getWeather"
+    >
   </footer>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'weather-part',
   data () {
     return {
       location: {},
+
       githubIcon: {
         src: require('../assets/github-logo.png'),
         alt: '깃허브 이동 링크',
         href: 'https://github.com/KoreanJungYJ/Whale-Clock'
+      },
+      weatherIcon: {
+        src: require('../assets/weather.png'),
+        alt: '날씨 확인 아이콘'
       }
+    }
+  },
+
+  methods: {
+    getWeather () {
+      const weatherURL = `https://api.darksky.net/forecast/e3b7a8e7022e701fde67fbfadcfb0bd0/${this.location.lat},${this.location.lng}`
+
+      axios.get(weatherURL).then(function (response) {
+        console.log(response.data)
+      }).catch(function (err) {
+        console.log(err)
+      })
     }
   },
 
@@ -38,14 +59,14 @@ export default {
       let self = this
       navigator.geolocation.getCurrentPosition(function (position) {
         const pos = {
-          lat: (position.coords.latitude).toFixed(5),
-          lng: (position.coords.longitude).toFixed(5)
+          lat: (position.coords.latitude).toFixed(4),
+          lng: (position.coords.longitude).toFixed(4)
         }
 
         self.location = pos
       })
     } else {
-      self.location = {}
+      this.location = {}
     }
   }
 }
@@ -72,19 +93,10 @@ export default {
     right: 45px;
   }
 
-  .test {
-    width: 200px;
-    height: 100px;
-    border: 3px solid white;
+  .weather-icon {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10200;
-    font-size: 1.2rem;
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    padding-top: 1.6rem;
+    bottom: 26px;
+    right: 95px;
+    cursor: pointer;
   }
 </style>
