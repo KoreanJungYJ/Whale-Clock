@@ -195,7 +195,7 @@ export default {
         self.location = pos
       })
     } else {
-      this.location = {}
+      this.location = { lat: 37, lng: 126 }
     }
   }
 }
