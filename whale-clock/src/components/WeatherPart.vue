@@ -9,8 +9,34 @@
                  class= "close-icon"
                  @click= "closeModal"
             >
-            <h1>오늘의 날씨</h1>
-            {{ weathers }}
+            <h1>{{ weathers.timezone }}</h1>
+            <span class= "location">
+              위도: {{ location.lat }}
+              <br>
+              경도: {{ location.lng }}
+            </span>
+            <div class= "weathers">
+              <span class= "degree">
+                기온
+                <br>
+                <span class= "celsius">
+                  {{ weathers.celsiusDeg }}
+                </span>
+              </span>
+              <span class= "weather">
+                날씨
+                <img :src= "checkWeather[displayWeather].src"
+                     :alt= "checkWeather[displayWeather].alt"
+                     class= "today-weather"
+                >
+              </span>
+            </div>
+            <span class= "info-from">
+              Infos from
+              <i style= "font-weight: 600">
+                Dark Sky API
+              </i>
+            </span>
           </div>
         </div>
       </div>
@@ -61,7 +87,62 @@ export default {
       closeIcon: {
         src: require('../assets/close.png'),
         alt: '닫기 아이콘'
+      },
+
+      checkWeather: [
+        {
+          src: require('../assets/clear-day.png'),
+          alt: '맑은 날입니다.'
+        },
+        {
+          src: require('../assets/rainy-day.png'),
+          alt: '비가 옵니다.'
+        },
+        {
+          src: require('../assets/snowy-day.png'),
+          alt: '눈이 옵니다.'
+        },
+        {
+          src: require('../assets/windy-day.png'),
+          alt: '바람이 붑니다.'
+        },
+        {
+          src: require('../assets/foggy-day.png'),
+          alt: '안개가 꼈습니다.'
+        },
+        {
+          src: require('../assets/cloudy-day.png'),
+          alt: '구름이 많습니다.'
+        }
+      ]
+    }
+  },
+
+  computed: {
+    displayWeather () {
+      const nowWeather = this.weathers.icon
+      const iconList = [
+        { name: 'clear-day', index: 0 },
+        { name: 'clear-night', index: 0 },
+        { name: 'rain', index: 1 },
+        { name: 'snow', index: 2 },
+        { name: 'sleet', index: 2 },
+        { name: 'wind', index: 3 },
+        { name: 'fog', index: 4 },
+        { name: 'cloudy', index: 5 },
+        { name: 'partly-cloudy-day', index: 5 },
+        { name: 'partly-cloudy-night', index: 5 }
+      ]
+
+      let indexVal = 0
+
+      for (let i = 0; i < iconList.length; i++) {
+        if (nowWeather === iconList[i].name) {
+          indexVal = iconList[i].index
+        }
       }
+
+      return indexVal
     }
   },
 
@@ -82,10 +163,10 @@ export default {
         const weatherDatas = {
           celsiusDeg: self.getCelsius(data.apparentTemperature),
           timezone: self.getCity(response.data.timezone),
-          summary: data.summary,
-          humidity: self.getHumidity(data.humidity)
+          icon: data.icon
         }
 
+        console.log(response.data)
         self.weathers = weatherDatas
       }).catch(function (err) {
         console.log(err)
@@ -97,13 +178,8 @@ export default {
       return ((feh - 32) / 1.8).toFixed(1) + '℃'
     },
 
-    getHumidity (hum) {
-      return hum * 100 + '%'
-    },
-
     getCity (loc) {
-      let splitCity = loc.split('/')
-      return splitCity[1]
+      return loc.split('/')[1]
     }
   },
 
@@ -134,12 +210,13 @@ export default {
   }
 
   h1 {
-    font-weight: 400;
+    font-size: 40px;
+    font-weight: 300;
+    text-transform: uppercase;
     text-align: center;
-    font-size: 30px;
-    color: #404040;
-    letter-spacing: 1px;
-    padding-top: 32.5px;
+    margin-top: 45px;
+    letter-spacing: 0.5px;
+    color: #424242;
   }
 
   .modal-mask {
@@ -151,7 +228,7 @@ export default {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, .75);
+    background-color: rgba(0, 0, 0, .7);
     transition: opacity .3s ease;
     display: table;
   }
@@ -163,7 +240,7 @@ export default {
 
   .modal-container {
     width: 650px;
-    height: 480px;
+    height: 400px;
     margin: 0 auto;
     background-color: #FFFFFF;
     border-radius: 4px;
@@ -189,7 +266,7 @@ export default {
     color: #F2F2F2;
     font-family: sans-serif;
     font-size: 14px;
-    padding: 10px 0 0 40px
+    padding: 10px 0 0 40px;
   }
 
   .git-icon {
@@ -210,5 +287,49 @@ export default {
     float: right;
     margin: 12px 12px 0 0;
     cursor: pointer;
+  }
+
+  .modal-container span {
+    display: block;
+    color: #505050;
+  }
+
+  .location {
+    padding-top: 4px;
+    text-align: center;
+  }
+
+  .weathers {
+    text-align: center;
+  }
+
+  .weathers .degree, .weathers .weather {
+    display: inline-block;
+    width: 35%;
+    height: 200px;
+    vertical-align: top;
+    margin: 25px;
+    font-size: 24px;
+    letter-spacing: 1px;
+    padding-top: 20px;
+  }
+
+  .celsius {
+    font-size: 60px;
+    font-weight: 400;
+    padding-top: 30px;
+    letter-spacing: 0;
+  }
+
+  .info-from {
+    text-align: center;
+    margin-top: -7.5px;
+  }
+
+  .today-weather {
+    width: 105px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
   }
 </style>
