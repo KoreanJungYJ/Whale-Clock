@@ -136,7 +136,7 @@ export default {
 
       let indexVal = 0
 
-      for (let i = 0; i < iconList.length; i++) {
+      for (let i in iconList) {
         if (nowWeather === iconList[i].name) {
           indexVal = iconList[i].index
         }
@@ -188,8 +188,8 @@ export default {
       let self = this
       navigator.geolocation.getCurrentPosition(function (position) {
         const pos = {
-          lat: (position.coords.latitude).toFixed(4),
-          lng: (position.coords.longitude).toFixed(4)
+          lat: (position.coords.latitude).toFixed(5),
+          lng: (position.coords.longitude).toFixed(5)
         }
 
         self.location = pos
@@ -211,7 +211,7 @@ export default {
 
   h1 {
     font-size: 40px;
-    font-weight: 300;
+    font-weight: 400;
     text-transform: uppercase;
     text-align: center;
     margin-top: 45px;
@@ -330,6 +330,6 @@ export default {
     width: 105px;
     display: block;
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 8px;
   }
 </style>
