@@ -71,13 +71,21 @@ export default {
     },
 
     getWeather () {
+      let self = this
       const weatherURL = `https://api.darksky.net/forecast/e3b7a8e7022e701fde67fbfadcfb0bd0/${this.location.lat},${this.location.lng}`
 
       axios.get(weatherURL).then(function (response) {
-        console.log(response.data)
+        const data = response.data.currently
+
+        let celDeg = self.getCelsius(data.apparentTemperature)
+        console.log(celDeg)
       }).catch(function (err) {
         console.log(err)
       })
+    },
+
+    getCelsius (feh) {
+      return ((feh - 32) / 1.8).toFixed(2)
     }
   },
 
@@ -133,6 +141,7 @@ export default {
     background-color: #FFFFFF;
     border-radius: 4px;
     transition: all .3s ease;
+    overflow-y: auto;
   }
 
   .modal-enter {
